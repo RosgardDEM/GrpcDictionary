@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcDictionary.Protos";
+
+package dictionary;
+
+import "google/protobuf/wrappers.proto";
+
+service Dictionary {
+  rpc Add    (AddRequest)    returns (AddResponse);
+  rpc Remove (RemoveRequest) returns (RemoveResponse);
+  rpc Get    (GetRequest)    returns (GetResponse);
+  rpc GetAll (GetAllRequest) returns (GetAllResponse);
+}
+
+// Entities
+
+message Item {
+	string key = 1;
+	google.protobuf.StringValue value = 2;
+}
+
+// Requests
+
+message AddRequest {
+	Item item = 1;
+}
+
+message RemoveRequest {
+	string key = 1;
+}
+
+message GetRequest {
+	string key = 1;
+}
+
+message GetAllRequest { }
+
+// Responses
+
+message AddResponse { }
+
+message RemoveResponse { }
+
+message GetResponse {
+	Item item = 1;
+}
+
+message GetAllResponse {
+	repeated Item items = 1;
+}
