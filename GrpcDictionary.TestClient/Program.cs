@@ -3,6 +3,15 @@ using GrpcDictionary.Protos;
 using GrpcDictionary.TestClient;
 
 var address = "http://localhost:5075";
+for (int i = 0; i < args.Length; i++)
+{
+    if (args[i] == "--urls" && (i + 1) < args.Length)
+    {
+        address = args[i + 1];
+        break;
+    }
+}
+
 using var channel = GrpcChannel.ForAddress(address);
 var client = new Dictionary.DictionaryClient(channel);
 var testClient = new TestClient(client);

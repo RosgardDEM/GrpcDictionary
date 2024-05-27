@@ -24,7 +24,8 @@ namespace GrpcDictionary.Services
 
         public void Remove(string key)
         {
-            if (!_dictionary.ContainsKey(key)) {
+            if (!_dictionary.ContainsKey(key))
+            {
                 throw new RpcException(new Status(StatusCode.NotFound, $"Item with key \"{key}\" doesn't exist."));
             }
 
