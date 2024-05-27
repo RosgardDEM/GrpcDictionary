@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcDictionary", "GrpcDictionary\GrpcDictionary.csproj", "{F110A371-D466-4263-BD8A-B336256B5CAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcDictionary", "GrpcDictionary\GrpcDictionary.csproj", "{F110A371-D466-4263-BD8A-B336256B5CAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcDictionary.TestClient", "GrpcDictionary.TestClient\GrpcDictionary.TestClient.csproj", "{57330DBE-A9B8-4A26-8345-DB6445918751}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcDictionary.TestClient", "GrpcDictionary.TestClient\GrpcDictionary.TestClient.csproj", "{57330DBE-A9B8-4A26-8345-DB6445918751}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

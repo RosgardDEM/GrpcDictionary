@@ -1,18 +1,25 @@
 ﻿using Grpc.Net.Client;
 using GrpcDictionary.Protos;
+using GrpcDictionary.TestClient;
 
 var address = "http://localhost:5075";
 using var channel = GrpcChannel.ForAddress(address);
 var client = new Dictionary.DictionaryClient(channel);
+var testClient = new TestClient(client);
 
-client.Add(new AddRequest { Item = new Item { Key = "", Value = "" } });
-client.Remove(new RemoveRequest { Key = "" });
+testClient.Add("key_1", "value_1");
+testClient.Add("key_2", null);
+testClient.Add("key_3", "value_3");
 
-var getResponse = client.Get(new GetRequest { Key = "" });
-var getAllResponse = client.GetAll(new GetAllRequest());
+testClient.Remove("key_3");
 
-Console.WriteLine("Get response:");
-Console.WriteLine(getResponse.Item);
+var item = testClient.Get("key_1");
+Console.WriteLine($"Get:");
+Console.WriteLine($"{item.Key}: {item.Value ?? "null"}");
 
-Console.WriteLine("Get all response:");
-getAllResponse.Items.ToList().ForEach(Console.WriteLine);
+var items = testClient.GetAll();
+Console.WriteLine($"Get All:");
+foreach (var currentItem in items)
+{
+    Console.WriteLine($"{currentItem.Key}: {currentItem.Value ?? "null"}");
+}

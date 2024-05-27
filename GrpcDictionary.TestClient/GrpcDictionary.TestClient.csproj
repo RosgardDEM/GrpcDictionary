@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="GrpcDictionary\**" />
+    <EmbeddedResource Remove="GrpcDictionary\**" />
+    <None Remove="GrpcDictionary\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.27.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
     <PackageReference Include="Grpc.Tools" Version="2.64.0">
@@ -17,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Protobuf Include="GrpcDictionary/Protos/dictionary.proto" Link="Protos/dictionary.proto" ProtoRoot=".." />
+    <ProjectReference Include="..\GrpcDictionary\GrpcDictionary.csproj" />
   </ItemGroup>
 
 </Project>

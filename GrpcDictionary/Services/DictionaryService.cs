@@ -1,62 +1,34 @@
-using Grpc.Core;
-using GrpcDictionary.Protos;
-
 namespace GrpcDictionary.Services
 {
-    public class DictionaryService : Dictionary.DictionaryBase
+    public class DictionaryService : IDictionary
     {
         private readonly ILogger<DictionaryService> _logger;
+        private readonly IDictionary<string, string?> _dictionary;
+
         public DictionaryService(ILogger<DictionaryService> logger)
         {
             _logger = logger;
+            _dictionary = new Dictionary<string, string?>();
         }
 
-        public override Task<AddResponse> Add(AddRequest request, ServerCallContext context)
+        public void Add(string key, string? value)
         {
-            return Task.FromResult(new AddResponse());
+            _dictionary.Add(key, value);
         }
 
-        public override Task<RemoveResponse> Remove(RemoveRequest request, ServerCallContext context)
+        public void Remove(string key)
         {
-            return Task.FromResult(new RemoveResponse());
+            _dictionary.Remove(key);
         }
 
-        public override Task<GetResponse> Get(GetRequest request, ServerCallContext context)
+        public (string Key, string? Value) Get(string key)
         {
-            var response = new GetResponse();
-
-            response.Item = new Item
-            {
-                Key = request.Key,
-                Value = "get_value",
-            };
-
-            return Task.FromResult(response);
+            return (key, _dictionary[key]);
         }
 
-        public override Task<GetAllResponse> GetAll(GetAllRequest request, ServerCallContext context)
+        public IEnumerable<(string Key, string? Value)> GetAll()
         {
-            var response = new GetAllResponse();
-
-            response.Items.Add(new Item
-            {
-                Key = "get_all_key_1",
-                Value = "get_all_value_1",
-            });
-
-            response.Items.Add(new Item
-            {
-                Key = "get_all_key_2",
-                Value = null,
-            });
-
-            response.Items.Add(new Item
-            {
-                Key = "get_all_key_3",
-                Value = "get_all_value_3",
-            });
-
-            return Task.FromResult(response);
+            return _dictionary.Select(item => (item.Key, item.Value)).ToArray();
         }
     }
 }
