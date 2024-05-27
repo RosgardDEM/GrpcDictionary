@@ -2,7 +2,7 @@ using Grpc.Core;
 
 namespace GrpcDictionary.Services
 {
-    public class DictionaryStorageService : IDictionary
+    public class DictionaryStorageService : IDictionarySrorage
     {
         private readonly IDictionary<string, string?> _dictionary;
 
@@ -44,6 +44,16 @@ namespace GrpcDictionary.Services
         public IEnumerable<(string Key, string? Value)> GetAll()
         {
             return _dictionary.Select(item => (item.Key, item.Value)).ToArray();
+        }
+
+        public int Count()
+        {
+            return _dictionary.Count;
+        }
+
+        public void Clear()
+        {
+            _dictionary.Clear();
         }
     }
 }

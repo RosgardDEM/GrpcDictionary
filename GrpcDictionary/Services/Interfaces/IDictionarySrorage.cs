@@ -1,6 +1,6 @@
 ﻿namespace GrpcDictionary.Services
 {
-    public interface IDictionary
+    public interface IDictionarySrorage
     {
         void Add(string key, string? value);
 
@@ -9,5 +9,9 @@
         (string Key, string? Value) Get(string key);
 
         IEnumerable<(string Key, string? Value)> GetAll();
+
+        int Count();
+
+        void Clear();
     }
 }

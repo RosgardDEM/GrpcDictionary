@@ -3,7 +3,7 @@ using GrpcDictionary.Services;
 
 namespace GrpcDictionary.TestClient
 {
-    internal class TestClient : IDictionary
+    internal class TestClient : IDictionarySrorage
     {
         private readonly Dictionary.DictionaryClient _client;
 
@@ -36,6 +36,18 @@ namespace GrpcDictionary.TestClient
             var response = _client.GetAll(new GetAllRequest());
 
             return response.Items.Select(item => (item.Key, (string?)item.Value)).ToArray();
+        }
+
+        public int Count()
+        {
+            var response = _client.Count(new CountRequest());
+
+            return response.Count;
+        }
+
+        public void Clear()
+        {
+            _client.Clear(new ClearRequest());
         }
     }
 }

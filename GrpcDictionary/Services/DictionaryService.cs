@@ -3,22 +3,22 @@ using GrpcDictionary.Protos;
 
 namespace GrpcDictionary.Services
 {
-    public class DictionaryGrpcService : Dictionary.DictionaryBase
+    public class DictionaryService : Dictionary.DictionaryBase
     {
-        private readonly IDictionary _dictionary;
-        private readonly ILogger<DictionaryGrpcService> _logger;
+        private readonly IDictionarySrorage _storage;
+        private readonly ILogger<DictionaryService> _logger;
 
-        public DictionaryGrpcService(ILogger<DictionaryGrpcService> logger, IDictionary dictionary)
+        public DictionaryService(ILogger<DictionaryService> logger, IDictionarySrorage storage)
         {
             _logger = logger;
-            _dictionary = dictionary;
+            _storage = storage;
         }
 
         public override Task<AddResponse> Add(AddRequest request, ServerCallContext context)
         {
             _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Add was called with item {request.Item}");
 
-            _dictionary.Add(request.Item.Key, request.Item.Value);
+            _storage.Add(request.Item.Key, request.Item.Value);
 
             return Task.FromResult(new AddResponse());
         }
@@ -27,7 +27,7 @@ namespace GrpcDictionary.Services
         {
             _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Remove was called with key \"{request.Key}\"");
 
-            _dictionary.Remove(request.Key);
+            _storage.Remove(request.Key);
 
             return Task.FromResult(new RemoveResponse());
         }
@@ -37,7 +37,7 @@ namespace GrpcDictionary.Services
             _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Get was called with key \"{request.Key}\"");
 
             var response = new GetResponse();
-            var item = _dictionary.Get(request.Key);
+            var item = _storage.Get(request.Key);
 
             response.Item = new Item
             {
@@ -54,12 +54,30 @@ namespace GrpcDictionary.Services
 
             var response = new GetAllResponse();
 
-            foreach (var (Key, Value) in _dictionary.GetAll())
+            foreach (var (Key, Value) in _storage.GetAll())
             {
                 response.Items.Add(new Item { Key = Key, Value = Value });
             }
 
             return Task.FromResult(response);
+        }
+
+        public override Task<CountResponse> Count(CountRequest request, ServerCallContext context)
+        {
+            _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Count called");
+
+            var response = new CountResponse { Count = _storage.Count() };
+
+            return Task.FromResult(response);
+        }
+
+        public override Task<ClearResponse> Clear(ClearRequest request, ServerCallContext context)
+        {
+            _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Clear called");
+
+            _storage.Clear();
+
+            return Task.FromResult(new ClearResponse());
         }
     }
 }

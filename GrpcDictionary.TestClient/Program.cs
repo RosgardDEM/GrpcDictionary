@@ -14,12 +14,21 @@ testClient.Add("key_3", "value_3");
 testClient.Remove("key_3");
 
 var item = testClient.Get("key_1");
-Console.WriteLine($"Get:");
+Console.WriteLine("Get:");
 Console.WriteLine($"{item.Key}: {item.Value ?? "null"}");
 
 var items = testClient.GetAll();
-Console.WriteLine($"Get All:");
+Console.WriteLine("Get All:");
 foreach (var currentItem in items)
 {
     Console.WriteLine($"{currentItem.Key}: {currentItem.Value ?? "null"}");
 }
+
+var count = testClient.Count();
+Console.WriteLine($"Count:\n{count}");
+
+testClient.Clear();
+Console.WriteLine("Clear");
+
+var count2 = testClient.Count();
+Console.WriteLine($"Count:\n{count2}");
