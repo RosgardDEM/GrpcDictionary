@@ -16,6 +16,8 @@ namespace GrpcDictionary.Services
 
         public override Task<AddResponse> Add(AddRequest request, ServerCallContext context)
         {
+            _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Add was called with item {request.Item}");
+
             _dictionary.Add(request.Item.Key, request.Item.Value);
 
             return Task.FromResult(new AddResponse());
@@ -23,6 +25,8 @@ namespace GrpcDictionary.Services
 
         public override Task<RemoveResponse> Remove(RemoveRequest request, ServerCallContext context)
         {
+            _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Remove was called with key \"{request.Key}\"");
+
             _dictionary.Remove(request.Key);
 
             return Task.FromResult(new RemoveResponse());
@@ -30,6 +34,8 @@ namespace GrpcDictionary.Services
 
         public override Task<GetResponse> Get(GetRequest request, ServerCallContext context)
         {
+            _logger.Log(LogLevel.Information, $"DictionaryGrpcService.Get was called with key \"{request.Key}\"");
+
             var response = new GetResponse();
             var item = _dictionary.Get(request.Key);
 
@@ -44,6 +50,8 @@ namespace GrpcDictionary.Services
 
         public override Task<GetAllResponse> GetAll(GetAllRequest request, ServerCallContext context)
         {
+            _logger.Log(LogLevel.Information, $"DictionaryGrpcService.GetAll was called");
+
             var response = new GetAllResponse();
 
             foreach (var (Key, Value) in _dictionary.GetAll())
